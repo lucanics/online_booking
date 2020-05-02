@@ -3,5 +3,7 @@ register user, create events (using django admin view) and book events (e.g. pil
 
 
 # run
-docker-compose build
-docker-compose up
+<ul>
+<li>docker-compose build</li>
+<li>docker-compose up</li>
+</ul>
