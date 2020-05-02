@@ -1,0 +1,15 @@
+{% extends "blog/base.html"%}
+
+{% block content %}
+    <h1>Pilates Einheiten</h1>
+    <br>
+    {% for slot in booking_slots %}
+        <article class="media content-section">
+            <div class="media-body">
+                <h2><a class="article-title">{{ slot.title }}</a></h2>
+                <p class="article-content">{{ slot.content }}</p>
+                <p>duration: {{slot.duration}} min</p>
+            </div>
+        </article>  
+    {% endfor %}
+{% endblock content %}

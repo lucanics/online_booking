@@ -1,0 +1,119 @@
+{% extends "pilates_booking/base.html" %}
+{% block content %}
+    <p><b>Kalenderwoche {{ week_number }} </b></p>
+    <br>
+    <small>Klicke auf die jeweiligen Termine um eine Einheit zu <br> buchen
+        oder zu stornieren (bis 24h vor Beginn möglich).
+    </small> 
+    <br><br>
+    <div class="">
+      <button onclick='changeWeek({{ week_number }}-1, {{ year_number }}, {{ max_weeknumber }})' class="bg-teal-400 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded-l">
+        &lt vorherige Woche
+      </button>
+      <button onclick='changeWeek({{ week_number }}+1, {{ year_number }}, {{ max_weeknumber }})' class="bg-teal-400 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded-r">
+        nächste Woche &gt
+      </button>
+    </div>
+    
+    
+    <div>
+    <!--Calendar-->
+    <table id="calendar" class="">
+    <thead>
+        <tr class="bg-gray-200">
+        <th class="px-4 py-2">Datum</th>
+        <th class="px-4 py-2">Einheiten</th>
+        </tr>
+        <tr style="border-bottom:2px solid black">
+ 
+        </tr>
+    </thead>
+    <tbody>
+        {% for day in week_obj %}
+        <div>
+        {% if forloop.counter0|divisibleby:2 %}
+            <tr class="bg-gray-400">
+        {% else %}
+            <tr class="bg-gray-200">
+        {% endif %}
+            <td class="border px-4 py-2"><b>{{ day.1 }}</b>, {{ day.0 }}</td>
+                <td class="border px-4 py-2">
+                {% for slot in booking_slots %}
+                    {% if day.0.year == slot.date.year and day.0.month == slot.date.month and day.0.day == slot.date.day %}
+                    <span>
+                        {% if user.is_authenticated %}
+                        <a href="{% url 'person_registration' slot.pk %}">
+                        {% else %}
+                        <a href="#"></a>
+                        {% endif %}
+
+
+                            {% if user.is_authenticated and user in slot.attendees.all %}
+                                <button class="tooltip border-solid border-4 border-gray-600 shadow-lg bg-teal-400 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded">
+                                <small>(gebucht)</small> <i class="far fa-calendar-check"></i>
+                            {% else %}
+                                <button class="tooltip shadow-lg bg-teal-400 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded">
+                            {% endif %}
+                            {% if user.is_authenticated and slot.content != ""%}
+                            <span class="tooltiptext">{{ slot.content }}</span>
+                            {% elif user.is_authenticated and slot.content == "" %}
+                            <!--do nothing-->
+                            {% else %}
+                            <span class="tooltiptext">Zum Buchen einloggen</span>
+                            {% endif %}
+
+                            <br>
+                                {% if slot.date.minute < 10 %}
+                                    {{ slot.date.hour }}:{{ slot.date.minute }}0 Uhr 
+                                {% else %}
+                                    {{ slot.date.hour }}:{{ slot.date.minute }} Uhr
+                                {% endif %} 
+                            <br>
+                            <b>{{ slot.title }}</b> 
+                            <br> 
+                            <br> 
+                            {% if user.is_authenticated and user in slot.attendees.all %}
+                            {% else %}
+                                <small> Plätze verfügbar: {{ slot.slots_available }} </small>
+                            {% endif %}
+                        </button>
+                        </a>
+                    </span>
+                    {% endif %}
+                {% endfor %}
+            </td>
+        </div>
+        {% endfor %}
+            </tr>
+    </tbody>
+    </table>  
+    </div> 
+  
+    {% if user.is_authenticated %}
+    <div>
+        <br><br>
+        <a href="{% url 'user_bookings' user.username %}" class="shadow-lg bg-teal-400 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded">
+            Meine Buchungen
+        </a>
+    </div>
+    {% endif %}
+
+  <script>
+    function changeWeek(week_number, year_number, max_weeknumber) {
+      /*console.log("submitFilter");*/
+      if (week_number > max_weeknumber) {
+          year_number++;
+          week_number = 1;
+      } else if (week_number < 1) {
+        year_number--;
+        week_number = 52
+        //week_number = max_weeknumber
+        //week_number = 53;
+      } else {}
+      var url = '?week=' + week_number + '&year=' + year_number;
+      window.location = url;
+    }
+  </script>
+
+
+{% endblock content %}

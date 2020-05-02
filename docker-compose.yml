@@ -1,0 +1,12 @@
+version: '3'
+services:
+  python:
+    build:
+      context: .
+      dockerfile: docker/python/Dockerfile
+    volumes:
+      - ./django_project:/django_project
+    ports:
+      - 8000:8000
+    
+    

@@ -1,0 +1,22 @@
+
+{% extends "pilates_booking/base.html" %}
+{% block content %}
+    <h4 class="text-teal-500 mb-3 text-2xl">{{ txt_message }}</h4>
+    <div>
+        <button onclick="gotoWeek({{ week_number }})" class="shadow-lg bg-teal-400 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded">
+            Zur Übersicht
+        </button>
+    </div>
+
+
+    <script>
+        function gotoWeek(week_number) {
+          /*console.log("submitFilter");*/  
+          var calendar_url = "{% url 'calendar' %}"
+          var url = calendar_url + '?week=' + week_number;
+          window.location = url;
+        }
+      </script>
+
+{% endblock content %}
+

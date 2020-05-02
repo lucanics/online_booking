@@ -1,0 +1,97 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Pilates Buchungen Tanja Rieder</title>
+    <meta name="author" content="name">
+    <meta name="description" content="description here">
+    <meta name="keywords" content="keywords,here">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static 'blog/main.css' %}">
+    
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet"> <!--Totally optional :) -->
+
+    <style>
+    .tooltip {
+        position: relative;
+        display: inline-block;
+      }
+      
+      .tooltip .tooltiptext {
+        visibility: hidden;
+        width: 120px;
+        background-color: black;
+        color: #fff;
+        text-align: center;
+        border-radius: 10px;
+        padding: 5px 0;
+      
+        /* Position the tooltip */
+        position: absolute;
+        z-index: 1;
+      }
+      
+      .tooltip:hover .tooltiptext {
+        visibility: visible;
+      }
+    </style>
+</head>
+
+
+
+
+
+<body class="bg-teal-400">
+    <nav class="flex items-center justify-between flex-wrap bg-teal-500 p-6">
+        <div class="flex items-center flex-shrink-0 text-white mr-6">
+          <img src="/media/logo.png" class="rounded-circle article-img rounded-md">
+           <span class="font-semibold text-xl tracking-tight">Tanja's Buchungskalender</span>
+        </div>
+        <div class="block lg:hidden">
+          <button class="flex items-center px-3 py-2 border rounded text-teal-200 border-teal-400 hover:text-white hover:border-white">
+            <svg class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Menu</title><path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"/></svg>
+          </button>
+        </div>
+        <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
+          <div class="text-sm lg:flex-grow">
+            {% if user.is_authenticated %}
+            <a href="{% url 'logout' %}" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
+                '{{ user.profile.vorname }} {{ user.profile.nachname }}' Ausloggen
+            </a>
+            {% else %}
+            <a href="{% url 'login' %}" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
+              Login
+            </a>
+            <a href="{% url 'register' %}" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white">
+              Registrieren
+            </a>
+            {% endif %}
+          </div>
+          
+        </div>
+      </nav>
+
+
+  <!-- Main -->
+  <main class="flex-1 flex flex-col">
+    <!-- Content -->
+    <section class="flex-1 overflow-auto pb-24 md:pb-5">
+        <div class="container mx-auto pt-8 pb-4 mt-6 flex flex-wrap">
+                <!--Metric Card-->
+                <div class="bg-white shadow-md rounded-md p-5">
+                    {% block content %}{% endblock %}
+                </div>
+        </div>
+    </section>
+</main>
+
+</body>
+</html>
+

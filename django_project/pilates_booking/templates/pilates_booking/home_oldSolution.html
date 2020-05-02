@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Physiotherapie und Pilates</title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="author" content="">
+
+  <!-- Font Awesome if you need it
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
+  -->
+  <link rel="stylesheet" href="https://unpkg.com/tailwindcss/dist/tailwind.min.css">
+  <!--Replace with your tailwind.css once created-->
+
+	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel="stylesheet">
+
+	<!-- Define your gradient here - use online tools to find a gradient matching your branding-->
+	<style>
+		.gradient {
+			background: linear-gradient(90deg, #d53369 0%, #daae51 100%);
+		}
+	</style>
+
+</head>
+
+<body>
+  
+  <div class="bg-gray-200 p-4">
+    <p>{{ week_number }}</p>
+    <!--Calendar-->
+    <table id="calendar" class="table-auto">
+      <thead>
+        <tr class="bg-gray-200">
+          <th class="px-4 py-2"></th>
+          {% for day in week_list %}
+            <th class="px-4 py-2">{{ day.1 }} <br> <small>{{ day.0 }}</small></th>
+          {% endfor %}
+        </tr>
+        <tr style="border-bottom:2px solid black">
+          <td colspan="100%"></td>
+        </tr>
+      </thead>
+      <tbody>
+        {% for hour in hours %}
+          {% if forloop.counter0|divisibleby:2 %}
+            <tr class="bg-gray-400">
+          {% else %}
+            <tr class="bg-gray-200">
+          {% endif %}
+              <td class="border px-4 py-2">{{ hour.0 }}h {{ hour.1 }}min</td>
+              {% for day in week_list%}
+                <td class="border px-4 py-2">
+                  {% for booking_slot in booking_slots %}
+                    {% if hour.0 == booking_slot.date.hour and hour.1 == booking_slot.date.minute %}
+                        <button class="shadow-lg bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                          Buchen
+                        </button>
+                    {% endif %}
+                  {% endfor %}
+                </td>
+              {% endfor %}
+            </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <button onclick="myFunction2()">Try it</button>
+    <p id="demo"></p>
+    
+    <script>
+      function myFunction() {
+        var x = document.getElementById("calendar").rows[0].cells.length;
+        document.getElementById("demo").innerHTML = "Found " + x + " cells in the first tr element.";
+      }
+      function myFunction2(){
+        var myTable = document.getElementById('calendar');
+        myTable.rows[4].cells[1].innerHTML = '<button class="shadow-lg bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Hey!</button>';
+      }
+      </script>
+      
+
+  </div>
+</body>
+
+</html>

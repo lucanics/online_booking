@@ -1,0 +1,16 @@
+{% extends "pilates_booking/form_base.html"%}
+
+{% block content %}
+    <h2>Du wurdest ausgeloggt</h2>
+    <div>
+        <div class="border-top pt-3">
+            <small class="text-muted">
+                <a href="{% url 'login'%}">Wieder einloggen</a>
+            </small>
+            <br>
+            <small class="text-muted">
+                <a href="{% url 'calendar'%}">Buchungskalender einsehen</a>
+            </small>
+        </div>
+    </div>
+{% endblock content %}

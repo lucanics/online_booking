@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Physiotherapie und Pilates</title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="author" content="">
+
+  <!-- Font Awesome if you need it
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
+  -->
+  <link rel="stylesheet" href="https://unpkg.com/tailwindcss/dist/tailwind.min.css">
+  <!--Replace with your tailwind.css once created-->
+
+	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel="stylesheet">
+
+	<!-- Define your gradient here - use online tools to find a gradient matching your branding-->
+	<style>
+		.gradient {
+			background: linear-gradient(90deg, #d53369 0%, #daae51 100%);
+		}
+	</style>
+
+</head>
+
+<body>
+  
+  <div class="bg-gray-200 p-4">
+    <p><b>Kalenderwoche: {{ week_number }}</b></p>
+    <br>
+    <div class="inline-flex">
+      <button onclick='changeWeek({{ week_number }}-1)' class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l">
+        vorherige Woche
+      </button>
+      <button onclick='changeWeek({{ week_number }}+1)' class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r">
+        nächste Woche
+      </button>
+    </div>
+    <hr></hr>
+    <!--Calendar-->
+    <table id="calendar" class="table-auto">
+      <thead>
+        <tr class="bg-gray-200">
+          <th class="px-4 py-2">Datum</th>
+          <th class="px-4 py-2">Einheiten</th>
+        </tr>
+        <tr style="border-bottom:2px solid black">
+          <td colspan="100%"></td>
+        </tr>
+      </thead>
+      <tbody>
+        {% for day in week_obj %}
+        <div class="flex justify-between items-stretch">
+          {% if forloop.counter0|divisibleby:2 %}
+            <tr class="bg-gray-400">
+          {% else %}
+            <tr class="bg-gray-200">
+          {% endif %}
+            <td class="border px-4 py-2"><b>{{ day.1 }}</b>, {{ day.0 }}</td>
+              <div class="flex-1 text-center">
+                <td class="border px-4 py-2">
+                  {% for slot in booking_slots %}
+                    {% if day.0.year == slot.date.year and day.0.month == slot.date.month and day.0.day == slot.date.day %}
+                      <span>
+                        <a href="{% url 'person_registration' slot.pk %}">
+                        <button class="shadow-lg bg-teal-400 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded">
+                          {% if slot.date.minute < 10 %}
+                            {{ slot.date.hour }}:{{ slot.date.minute }}0 Uhr 
+                              <br>
+                              {% if user in slot.attendees.all %}
+                                <small>gebucht</small>
+                                <br>
+                              {% endif %}
+                              <b>{{ slot.title }}</b> 
+                              <br> 
+                              {{ slot.content }} 
+                              <br> 
+                              <small> Plätze verfügbar: {{ slot.slots_available }} </small>
+                          {% else %} 
+                            {{ slot.date.hour }}:{{ slot.date.minute }} Uhr 
+                            <br> 
+                            <b>{{ slot.title }}</b> 
+                            <br> 
+                            {{ slot.content }} 
+                            <br> 
+                            <small> Plätze verfügbar: {{ slot.slots_available }} </small>
+                          {% endif %}                 
+                        </button>
+                        </a>
+                      </span>
+                    {% endif %}
+                  {% endfor %}
+                </div>
+              </div>
+            </td>
+          {% endfor %}
+            </tr>
+      </tbody>
+    </table>      
+
+    <br><br>
+    <hr>
+    <a href="{% url 'user_bookings' user.username %}">
+      <button class="shadow-lg bg-teal-400 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded">
+      Meine Buchungen
+      </button>
+    </a>
+  </div>
+</body>
+
+<script>
+  function changeWeek(week_number) {
+    /*console.log("submitFilter");*/
+    var url = '?week=' + week_number;
+    window.location = url;
+  }
+</script>
+
+</html>
