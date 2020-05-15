@@ -8,7 +8,7 @@ class Profile(models.Model):
     vorname = models.CharField(max_length=100, default="hans")
     nachname = models.CharField(max_length=100, default="max")
     adresse = models.TextField(max_length=500, default="gasse")
-    tel = models.CharField(max_length=20, default=1234)
+    telefonnummer = models.CharField(max_length=20, default=1234)
     email = models.EmailField(max_length=50, default="default@default.com")
 
     def __str__(self):

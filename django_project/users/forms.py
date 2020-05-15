@@ -17,10 +17,10 @@ class UserRegisterForm(UserCreationForm):
         required = True,
         label='Email bestätigen',
     )
-    vorname = forms.CharField(required=True, )
+    vorname = forms.CharField(required=True)
     nachname = forms.CharField(required=True)
-    adresse = forms.CharField(required=False)
-    tel = forms.CharField(required=False)
+    adresse = forms.CharField(required=True)
+    telefonnummer = forms.CharField(required=True)
 
     username = UsernameField(
         label='Email',
