@@ -4,7 +4,6 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import Profile
 from django.contrib.auth.forms import AuthenticationForm, UsernameField
 
-
 class CustomAuthenticationForm(AuthenticationForm):
     #email = forms.EmailField(required=True)
     username = UsernameField(
@@ -14,7 +13,10 @@ class CustomAuthenticationForm(AuthenticationForm):
 
 
 class UserRegisterForm(UserCreationForm):
-    #email = forms.EmailField(required=True)
+    email = forms.EmailField(
+        required = True,
+        label='Email bestätigen',
+    )
     vorname = forms.CharField(required=True, )
     nachname = forms.CharField(required=True)
     adresse = forms.CharField(required=False)
@@ -24,10 +26,11 @@ class UserRegisterForm(UserCreationForm):
         label='Email',
         widget=forms.TextInput(attrs={'autofocus': True})
     )
+    
 
     class Meta:
         model = User
-        fields = ['username', 'password1', 'password2']
+        fields = ['username', 'email', 'password1', 'password2']
         #fields = ['email', 'vorname', 'nachname']
 
     def save(self, *args, **kwargs):

@@ -149,4 +149,3 @@ configParser.read(configFilePath)
     
 EMAIL_HOST_USER = configParser.get('secrets_online_booking', 'HOST')
 EMAIL_HOST_PASSWORD = configParser.get('secrets_online_booking', 'PWD')
-

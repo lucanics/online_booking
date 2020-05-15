@@ -5,7 +5,6 @@ from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm, CustomAu
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.models import User
 
-
 class CustomLoginView(LoginView):
     authentication_form = CustomAuthenticationForm
 
