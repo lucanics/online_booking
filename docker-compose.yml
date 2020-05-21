@@ -7,6 +7,4 @@ services:
     volumes:
       - ./django_project:/django_project
     ports:
-      - 8000:8000
-    
-    
+      - 8002:80
