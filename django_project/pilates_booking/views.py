@@ -87,7 +87,7 @@ def calendar(request):
 
     context = {
         'booking_slots': booking_slots,
-        'hours': get_time_range(6, 19),
+        #'hours': get_time_range(6, 19),
         'week_list': week_list, # [date, weekday_string]
         'week_number': week_number,
         'year_number': year_number,
@@ -95,6 +95,33 @@ def calendar(request):
         'max_weeknumber': max_weeknumber, # to increase year if necessary
     }   
     return render(request, 'pilates_booking/home.html', context)
+
+
+def admin_calendar(request):
+    week_number = request.GET.get('week')
+    if week_number == None:
+        week_number = datetime.now().isocalendar()[1] # current week
+    
+    year_number = request.GET.get('year')
+    if year_number == None:
+        year_number = datetime.now().year # current year
+
+    week_list, max_weeknumber = get_week_list(year_number) 
+    booking_slots = Booking.objects.all()
+    paginator = Paginator(week_list, 5) # 5 days at a time (one week MO-FR)
+    week_obj = paginator.get_page(week_number).object_list
+    user = request.user
+
+    context = {
+        'booking_slots': booking_slots,
+        'hours': get_time_range(6, 19),
+        'week_list': week_list, # [date, weekday_string]
+        'week_number': week_number,
+        'year_number': year_number,
+        'week_obj': week_obj, # for pagination
+        'max_weeknumber': max_weeknumber, # to increase year if necessary
+    }   
+    return render(request, 'pilates_booking/admin_calendar.html', context)
 
 
 class BookingSlotsListView(ListView):

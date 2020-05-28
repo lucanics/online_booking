@@ -13,6 +13,10 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 import os
 import configparser
 
+configParser = configparser.RawConfigParser()   
+configFilePath = './secrets.config'
+configParser.read(configFilePath)
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -21,13 +25,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '*ayg=#eht%xuasp8sur7+g%6t(0x6ipnby*7$7^i24)cudbr+n'
+SECRET_KEY = configParser.get('secrets_online_booking', 'SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = False    
 
 ALLOWED_HOSTS = '*'
-
 
 # Application definition
 
@@ -142,10 +145,6 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-
-configParser = configparser.RawConfigParser()   
-configFilePath = './secrets.config'
-configParser.read(configFilePath)
     
 EMAIL_HOST_USER = configParser.get('secrets_online_booking', 'HOST')
 EMAIL_HOST_PASSWORD = configParser.get('secrets_online_booking', 'PWD')
